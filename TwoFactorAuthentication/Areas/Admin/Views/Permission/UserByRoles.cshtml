@@ -1,0 +1,10 @@
+﻿@model IEnumerable<TwoFactorAuthentication.VMModels.UsersByRoles>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<option value="">-- Select User --</option>
+@foreach(var user in Model){
+    <option value="@user.Id">@user.Name</option>
+    <hr class="dropdown-divider">
+
+}

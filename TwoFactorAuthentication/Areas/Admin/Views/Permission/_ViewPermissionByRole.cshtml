@@ -1,0 +1,124 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<TwoFactorAuthentication.VMModels.FeatureViewDataModel2>
+
+@{
+    ViewBag.Title = "Features";
+}
+
+<center><h2 class="spacepadding">Features Permissions</h2></center>
+<div class="container"> 
+    <div class="row">
+
+    
+    
+    <div class="col">
+    </div>
+    <div class="col">
+        <b>Feature Name</b>
+    </div>
+    <div class="col">
+        DELETE 
+    </div>
+    <div class="col">
+        EDIT
+    </div>
+    <div class="col">
+        CREATE
+    </div>
+    <div class="col">
+        VIEW
+    </div>
+    </div>
+    <div class="row space"></div>
+    <div class="row space"></div>
+</div>
+<div class="container">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="row checkbox-container">
+            <div class="col">
+                <input type="hidden" class="" id="Id" name="id" value="@Model[@i].Id">
+
+            </div>
+            <div class="col">
+                @Model[@i].Name <input type="hidden" class="" id="FeatureViewDataModel2[].name" asp-for="@Model[@i].Name" value="@Model[@i].Name">
+
+            </div>
+            <div class="col">
+                <input type="checkbox" class="form-control" id="isDeleted" name="IsDeleted" checked="@Model[@i].IsDeleted">
+
+            </div>
+            <div class="col">
+                <input type="checkbox" class="form-control" id="isEdit" name="IsEdit" checked="@Model[@i].IsEdit">
+
+            </div>
+            <div class="col">
+                <input type="checkbox" class="form-control" id="isCreate" name="IsCreate" checked="@Model[@i].IsCreate">
+
+            </div>
+            <div class="col">
+                <input type="checkbox" class="form-control" id="isView" name="IsView" checked="@Model[@i].IsView">
+
+            </div>
+        </div>
+    }
+
+</div>
+<button type="submit" class="btn btn-primary float-end" id="save-button">Save</button>
+<script>
+    $(document).ready(function () {
+        $("#save-button").on("click", function () {
+            var roleId = $('#roleDropdown').val();
+            var userId = $('#UserDropdown').val();
+            // Get all divs with checkboxes
+            var checkboxContainers = $(".checkbox-container");
+
+            // Build an array of checkbox data
+            var checkboxData = [];
+            // Build an array of dic dictionary to save key value pair data key = Name Of Checkbox  and Value = checked property of checkbox
+            var dic={};
+            checkboxContainers.each(function () {
+                var checkboxContainer = $(this);
+                console.log(checkboxContainer);
+                var FeatureId = checkboxContainer.find("input[type='hidden']").val()
+                dic["FeatureId"]=FeatureId;
+                
+                var checkedCheckboxes = checkboxContainer.find("input[type='checkbox']");
+                var name = checkedCheckboxes;
+               
+                checkedCheckboxes.each(function () {
+                    var checkbox = $(this);
+                    var name=checkbox.attr("name");
+                    console.log(name);
+                    dic[name] = checkbox.prop("checked");
+                });
+                checkboxData.push(dic);
+                dic={};
+            });
+            
+            
+             //Send the checkbox data to the server using AJAX
+            $.ajax({
+                url: "Permission/CreatePermission",
+                type: "POST",
+                data: {
+                    RoleId:roleId,
+                    UserId:userId,
+                    featurePermissionRequests: checkboxData
+                },
+                
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+</script>
+
+

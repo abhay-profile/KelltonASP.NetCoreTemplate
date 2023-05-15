@@ -1,0 +1,66 @@
+﻿
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+    .checkbox-wrapper label {
+        margin-left: 10px; /* adjust the spacing between the checkbox and label */
+    }
+
+input[type="checkbox"] {
+    display: none;
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid black;
+    width: 19px;
+    height: 21px;
+    border-radius: 4px;
+}
+
+    input[type=checkbox]:checked::before {
+        content: "\2713";
+        display: inline-block;
+        text-align: center;
+        font-size: 18px;
+        color: white;
+        background-color: green;
+        width: 20px;
+        height: 20px;
+        border: none;
+        border-radius: 5px;
+    }
+
+.table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.space {
+    margin-bottom: 10px;
+}
+
+.spacepadding {
+    padding: 10px;
+    margin: 10px;
+}
+/* Hide default checkbox */
+
+
+

@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model TwoFactorAuthentication.VMModels.RolesFeatureViewDataModel
+<br />
+<br />
+<div class="row">
+    <div class="col">
+        <span class="text-black text-break"><b>Roles : </b></span>
+        <select class="form-control" id="roleDropdown">
+            <option value="">-- Select Role --</option>
+            @foreach(var role in Model.Roles)
+            {
+                <option value="@role.Id">@role.Name</option>
+               
+                
+            }
+        </select>
+    </div>
+    
+    <div class="col">
+        <span class="text-black text-break"><b>Users : </b></span>
+        <select class="form-control" id="UserDropdown">
+            <option value="">-- Select User --</option>
+           
+        </select>
+    </div>
+</div>
+<br />
+<br />
+<center><div class="row">
+    <button class="btn btn-outline-dark btn-info" id="show-permissions" col="col-6">Show Permission</button>
+</div>
+</center>
+<div class="row">
+    <div id="permission-container"></div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#show-permissions').click(function () {
+            //confirm("hello");
+            var roleId = $('#roleDropdown').val();
+            var userId = $('#UserDropdown').val();
+            if (roleId == "" && userId == "") {
+                alert("Please Select Any Role and feature")
+                $('#permission-container').html("");
+            }else
+            {
+                if (roleId != "" && userId==""){
+                    $.ajax({
+                        url: 'Permission/CreateViewByRole',
+                        type: 'POST',
+                        data: {
+                            roleId: roleId,
+                            
+                        },
+                        success: function (result) {
+                            
+                            $('#permission-container').html();
+                            $('#permission-container').html(result);
+                        }
+                    });
+
+                }
+                else if (roleId != "" && userId != ""){
+                    $.ajax({
+                        url: 'Permission/CreateViewByUser',
+                        type: 'POST',
+                        data: {
+                            userId: userId,
+
+                        },
+                        success: function (result) {
+                            //console.log(result);
+                            $('#permission-container').html();
+                            $('#permission-container').html(result);
+                        }
+                    });
+
+                }
+
+           
+            }
+        });
+        
+//==========================================================================Onchange
+        $('#roleDropdown').on("change", function () {
+            
+            var roleId = $('#roleDropdown').val();
+           
+            if (roleId == "" ) {
+                alert("Please Select Any Role and feature")
+                $('#UserDropdown').html("");
+            } else {
+
+                $.ajax({
+                    url: 'Permission/UsersByRoles',
+                    type: 'POST',
+                    data: {
+                        roleId: roleId,
+                        
+                    },
+                    success: function (result) {
+                        //console.log(result);
+                        $('#UserDropdown').html("");
+                        $('#permission-container').html("");
+                        $('#UserDropdown').append(result);
+                    }
+                });
+            }
+        });
+//======================================================================================================================
+        $('#UserDropdown').on("change", function () {
+           
+            $('#permission-container').html("");
+               
+        });
+
+
+
+    });
+
+</script>
+
+
+
+
+
+
