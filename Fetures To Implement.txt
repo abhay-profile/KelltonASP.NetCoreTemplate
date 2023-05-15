@@ -1,0 +1,24 @@
+By default add all identity pages in kellton template
+make Application User
+2 factor authentication with QR
+Email verification at register/sign up
+change identityUser to ApplicationUser everywhere in identiy
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 8;
+    options.Password.RequiredUniqueChars = 1;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.SignIn.RequireConfirmedEmail = true;
+}).AddDefaultTokenProviders().AddDefaultUI().AddEntityFrameworkStores<EcommerceDbContext>();
+
+Areas are cumpulsory
+And default route for controller and razor pages both should be made considering area.
+Add session to .net core template
+Facebook login is cumpulsory
+Lock/Unlock or activate/deactivate user account
+Webapp must have authorization
+Permission Based on role and features.
