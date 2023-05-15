@@ -1,0 +1,1 @@
+# KelltonASP.NetCoreTemplate
